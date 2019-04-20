@@ -42,39 +42,11 @@ export default [
         name: 'home',
         meta: {
           hideInMenu: true,
-          title: '首页',
+          title: '',
           notCache: true,
           icon: 'md-home'
         },
         component: () => import('@/view/single-page/home')
-      }
-    ]
-  },
-  {
-    path: '',
-    name: 'doc',
-    meta: {
-      title: '文档',
-      href: 'https://lison16.github.io/iview-admin-doc/#/',
-      icon: 'ios-book'
-    }
-  },
-  {
-    path: '/join',
-    name: 'join',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [
-      {
-        path: 'join_page',
-        name: 'join_page',
-        meta: {
-          icon: '_qq',
-          title: 'QQ群'
-        },
-        component: () => import('@/view/join-page.vue')
       }
     ]
   },
@@ -99,94 +71,72 @@ export default [
     ]
   },
   {
-    path: '/components',
-    name: 'components',
+    path: '/modify',
+    name: 'modify',
+    component: Main,
+    meta: {
+      hideInBread: true,
+      hideInMenu: true
+    },
+    children: [
+      {
+        path: 'person_information',
+        name: 'person_information',
+        meta: {
+          icon: 'md-notifications',
+          title: '修改信息'
+        },
+        component: () => import('@/view/single-page/modify/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/manage',
+    name: 'manage',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '用户管理',
+      access: ['1']
     },
     component: Main,
     children: [
       {
-        path: 'count_to_page',
-        name: 'count_to_page',
+        path: 'registered',
+        name: 'registered',
         meta: {
           icon: 'md-trending-up',
-          title: '数字渐变'
+          // title: route => {
+          //   if (route && route.query.id) {
+          //     return '用户编辑'
+          //   } else {
+          //     return '用户注册'
+          //   }
+          // }
+          title: '用户注册',
+          access: ['1']
         },
-        component: () => import('@/view/components/count-to/count-to.vue')
+        component: () => import('@/view/components/registered/registered.vue')
       },
       {
-        path: 'drag_list_page',
-        name: 'drag_list_page',
+        path: 'edit',
+        name: 'edit',
         meta: {
-          icon: 'ios-infinite',
-          title: '拖拽列表'
+          icon: 'md-trending-up',
+          title: '用户编辑',
+          hideInMenu: true,
+          access: ['1']
         },
-        component: () => import('@/view/components/drag-list/drag-list.vue')
+        component: () => import('@/view/components/registered/edit.vue')
       },
       {
-        path: 'tree_table_page',
-        name: 'tree_table_page',
+        path: 'user_list',
+        name: 'user_list',
         meta: {
-          icon: 'md-git-branch',
-          title: '树状表格'
+          icon: 'md-trending-up',
+          title: '用户列表',
+          access: ['1']
         },
-        component: () => import('@/view/components/tree-table/index.vue')
-      },
-      {
-        path: 'cropper_page',
-        name: 'cropper_page',
-        meta: {
-          icon: 'md-crop',
-          title: '图片裁剪'
-        },
-        component: () => import('@/view/components/cropper/cropper.vue')
-      },
-      {
-        path: 'tables_page',
-        name: 'tables_page',
-        meta: {
-          icon: 'md-grid',
-          title: '多功能表格'
-        },
-        component: () => import('@/view/components/tables/tables.vue')
-      },
-      {
-        path: 'split_pane_page',
-        name: 'split_pane_page',
-        meta: {
-          icon: 'md-pause',
-          title: '分割窗口'
-        },
-        component: () => import('@/view/components/split-pane/split-pane.vue')
-      },
-      {
-        path: 'markdown_page',
-        name: 'markdown_page',
-        meta: {
-          icon: 'logo-markdown',
-          title: 'Markdown编辑器'
-        },
-        component: () => import('@/view/components/markdown/markdown.vue')
-      },
-      {
-        path: 'editor_page',
-        name: 'editor_page',
-        meta: {
-          icon: 'ios-create',
-          title: '富文本编辑器'
-        },
-        component: () => import('@/view/components/editor/editor.vue')
-      },
-      {
-        path: 'icons_page',
-        name: 'icons_page',
-        meta: {
-          icon: '_bear',
-          title: '自定义图标'
-        },
-        component: () => import('@/view/components/icons/icons.vue')
+        component: () => import('@/view/components/user-list/user-list.vue')
       }
     ]
   },

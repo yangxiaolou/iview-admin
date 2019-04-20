@@ -1,4 +1,53 @@
 import axios from '@/libs/api.request'
+import qs from 'qs'
+
+export const registered = (userForm) => {
+  const data = userForm
+  return axios.request({
+    url: 'registered',
+    data,
+    method: 'post'
+  })
+}
+
+export const modify = (userForm) => {
+  const data = userForm
+  return axios.request({
+    url: 'modify',
+    data,
+    method: 'post'
+  })
+}
+
+export const handleDispatch = () => {
+  return axios.request({
+    url: 'handleDispatch',
+    method: 'get'
+  })
+}
+
+export const getUserById = (id) => {
+  return axios.request({
+    url: 'get_user_by_id',
+    data: qs.stringify({id}),
+    method: 'post'
+  })
+}
+
+export const removeUserById = (id) => {
+  return axios.request({
+    url: 'remove_user_by_id',
+    params: {id},
+    method: 'get'
+  })
+}
+
+export const getUserList = () => {
+  return axios.request({
+    url: 'get_user_list',
+    method: 'get'
+  })
+}
 
 export const login = ({ userName, password }) => {
   const data = {
@@ -25,7 +74,7 @@ export const getUserInfo = (token) => {
 export const logout = (token) => {
   return axios.request({
     url: 'logout',
-    method: 'post'
+    method: 'get'
   })
 }
 
@@ -56,8 +105,8 @@ export const getContentByMsgId = msg_id => {
 export const hasRead = msg_id => {
   return axios.request({
     url: 'message/has_read',
-    method: 'post',
-    data: {
+    method: 'get',
+    params: {
       msg_id
     }
   })

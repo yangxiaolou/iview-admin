@@ -76,6 +76,9 @@ export default {
     tagNavList () {
       return this.$store.state.app.tagNavList
     },
+    newUser () {
+      return this.$store.state.user.newUser
+    },
     tagRouter () {
       return this.$store.state.app.tagRouter
     },
@@ -178,6 +181,12 @@ export default {
     }
     // 获取未读消息条数
     this.getUnreadMessageCount()
+    if (this.newUser) {
+      this.$Notice.warning({
+        title: '请修改初始化密码',
+        desc: '点击右上角修改密码选项，修改密码. '
+      })
+    }
   }
 }
 </script>

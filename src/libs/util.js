@@ -73,7 +73,7 @@ export const getBreadCrumbList = (route, homeRoute) => {
     return obj
   })
   res = res.filter(item => {
-    return !item.meta.hideInMenu
+    return !item.meta.hideInBread
   })
   return [{...homeItem, to: homeRoute.path}, ...res]
 }
@@ -100,7 +100,13 @@ export const showTitle = (item, vm) => {
     if (title.includes('{{') && title.includes('}}') && useI18n) title = title.replace(/({{[\s\S]+?}})/, (m, str) => str.replace(/{{([\s\S]*)}}/, (m, _) => vm.$t(_.trim())))
     else if (__titleIsFunction__) title = item.meta.title
     else title = vm.$t(item.name)
-  } else title = (item.meta && item.meta.title) || item.name
+  } else {
+    if (item.meta && item.meta.title && typeof item.meta.title === 'function') {
+      title = item.meta.title()
+    } else {
+      title = (item.meta && item.meta.title) || item.name
+    }
+  }
   return title
 }
 
@@ -163,7 +169,7 @@ const hasAccess = (access, route) => {
 /**
  * 权鉴
  * @param {*} name 即将跳转的路由name
- * @param {*} access 用户权限数组
+ * @param {*} access 用户权限数组getToken
  * @param {*} routes 路由列表
  * @description 用户是否可跳转到该页
  */

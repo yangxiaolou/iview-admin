@@ -9,6 +9,7 @@
         <DropdownItem name="message">
           消息中心<Badge style="margin-left: 10px" :count="messageUnreadCount"></Badge>
         </DropdownItem>
+        <DropdownItem name="modifyInfo">修改信息</DropdownItem>
         <DropdownItem name="logout">退出登录</DropdownItem>
       </DropdownMenu>
     </Dropdown>
@@ -17,7 +18,7 @@
 
 <script>
 import './user.less'
-import { mapActions } from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   name: 'User',
   props: {
@@ -31,19 +32,34 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'handleLogOut'
+    ...mapMutations([
+      'setToken',
+      'setAccess',
+      'setTagNavList'
     ]),
+    // ...mapActions([
+    //   'handleLogOut'
+    // ]),
     logout () {
-      this.handleLogOut().then(() => {
-        this.$router.push({
-          name: 'login'
-        })
-      })
+      this.setToken('')
+      this.setAccess([])
+      this.setTagNavList([])
+      location.href = 'http://127.0.0.1:8081/logout'
+      // this.handleLogOut().then((res) => {
+      //   if (res.data) {
+      //     // 重定向到sso
+      //     location.href = res.data
+      //   }
+      // })
     },
     message () {
       this.$router.push({
         name: 'message_page'
+      })
+    },
+    modifyInfo () {
+      this.$router.push({
+        name: 'person_information'
       })
     },
     handleClick (name) {
@@ -52,6 +68,7 @@ export default {
           break
         case 'message': this.message()
           break
+        case 'modifyInfo': this.modifyInfo()
       }
     }
   }

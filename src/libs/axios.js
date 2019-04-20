@@ -14,7 +14,7 @@ const addErrorLog = errorInfo => {
 
 class HttpRequest {
   constructor (baseUrl = baseURL) {
-    this.baseUrl = baseUrl
+    this.baseUrl = baseUrl + '/api'
     this.queue = {}
   }
   getInsideConfig () {

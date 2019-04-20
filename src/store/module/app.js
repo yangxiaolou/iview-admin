@@ -12,7 +12,7 @@ import {
   localRead
 } from '@/libs/util'
 import beforeClose from '@/router/before-close'
-import { saveErrorLogger } from '@/api/data'
+import {saveErrorLogger, loadConstants} from '@/api/data'
 import router from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
@@ -32,6 +32,7 @@ export default {
     tagNavList: [],
     homeRoute: {},
     local: localRead('local'),
+    authoType: {},
     errorList: [],
     hasReadErrorPage: false
   },
@@ -92,6 +93,9 @@ export default {
     addError (state, error) {
       state.errorList.push(error)
     },
+    setAuthoType (state, authoType) {
+      state.authoType = authoType
+    },
     setHasReadErrorLoggerStatus (state, status = true) {
       state.hasReadErrorPage = status
     }
@@ -109,6 +113,17 @@ export default {
       }
       saveErrorLogger(info).then(() => {
         commit('addError', data)
+      })
+    },
+    loadConstants ({ state, commit }) {
+      return new Promise((resolve, reject) => {
+        loadConstants(['authoType']).then(res => {
+          const data = res.data.data
+          commit('setAuthoType', data.authoType)
+          resolve(data)
+        }).catch(err => {
+          reject(err)
+        })
       })
     }
   }

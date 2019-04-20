@@ -1,4 +1,5 @@
 import axios from '@/libs/api.request'
+import qs from 'qs'
 
 export const getTableData = () => {
   return axios.request({
@@ -33,5 +34,18 @@ export const uploadImg = formData => {
   return axios.request({
     url: 'image/upload',
     data: formData
+  })
+}
+
+export const loadConstants = typeList => {
+  return axios.request({
+    url: 'data/load_constants',
+    params: {
+      typeList
+    },
+    paramsSerializer: function (params) {
+      return qs.stringify(params, {arrayFormat: 'repeat'})
+    },
+    method: 'get'
   })
 }

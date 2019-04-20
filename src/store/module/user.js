@@ -19,6 +19,7 @@ export default {
     token: getToken(),
     access: '',
     hasGetInfo: false,
+    newUser: false,
     unreadCount: 0,
     messageUnreadList: [],
     messageReadedList: [],
@@ -44,6 +45,9 @@ export default {
     },
     setHasGetInfo (state, status) {
       state.hasGetInfo = status
+    },
+    setNewUser (state, newUser) {
+      state.newUser = newUser
     },
     setMessageCount (state, count) {
       state.unreadCount = count
@@ -92,10 +96,11 @@ export default {
     // 退出登录
     handleLogOut ({ state, commit }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        logout(state.token).then((res) => {
+          const data = res.data
           commit('setToken', '')
           commit('setAccess', [])
-          resolve()
+          resolve(data)
         }).catch(err => {
           reject(err)
         })
@@ -116,6 +121,7 @@ export default {
             commit('setUserId', data.user_id)
             commit('setAccess', data.access)
             commit('setHasGetInfo', true)
+            commit('setNewUser', data.newUser)
             resolve(data)
           }).catch(err => {
             reject(err)
