@@ -18,7 +18,7 @@
 
 <script>
 import './user.less'
-import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'User',
   props: {
@@ -32,25 +32,16 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'setToken',
-      'setAccess',
-      'setTagNavList'
+    ...mapActions([
+      'handleLogOut'
     ]),
-    // ...mapActions([
-    //   'handleLogOut'
-    // ]),
     logout () {
-      this.setToken('')
-      this.setAccess([])
-      this.setTagNavList([])
-      location.href = 'http://127.0.0.1:8081/logout'
-      // this.handleLogOut().then((res) => {
-      //   if (res.data) {
-      //     // 重定向到sso
-      //     location.href = res.data
-      //   }
-      // })
+      // this.setTagNavList([])
+      this.handleLogOut().then(() => {
+        this.$router.push({
+          name: 'login'
+        })
+      })
     },
     message () {
       this.$router.push({

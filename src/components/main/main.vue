@@ -111,7 +111,8 @@ export default {
     ]),
     ...mapActions([
       'handleLogin',
-      'getUnreadMessageCount'
+      'getUnreadMessageCount',
+      'loadConstants'
     ]),
     turnToPage (route) {
       let { name, params, query } = {}
@@ -181,6 +182,8 @@ export default {
     }
     // 获取未读消息条数
     this.getUnreadMessageCount()
+    // 加载常量
+    this.loadConstants()
     if (this.newUser) {
       this.$Notice.warning({
         title: '请修改初始化密码',
