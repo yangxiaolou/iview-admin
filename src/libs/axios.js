@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
+import {setToken} from '@/libs/util'
 // import { Spin } from 'iview'
 const addErrorLog = errorInfo => {
   const { statusText, status, request: { responseURL } } = errorInfo
@@ -49,6 +50,10 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.destroy(url)
       const { data, status } = res
+      if (status == 200 && (data.code == 501 || data.code == 502 || data.code == 503)) {
+        this.$Message.error(data.message)
+        setToken('')
+      }
       return { data, status }
     }, error => {
       this.destroy(url)

@@ -13,7 +13,7 @@ export const registered = (userForm) => {
 export const modify = (userForm) => {
   const data = userForm
   return axios.request({
-    url: 'modify',
+    url: 'user/modify',
     data,
     method: 'post'
   })
@@ -73,7 +73,7 @@ export const getUserInfo = (token) => {
 
 export const logout = (token) => {
   return axios.request({
-    url: 'logout',
+    url: 'user/logout',
     method: 'get'
   })
 }

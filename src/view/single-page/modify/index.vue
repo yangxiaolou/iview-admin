@@ -7,7 +7,7 @@
       <Input type="password" v-model="formCustom.passwdCheck"></Input>
     </FormItem>
     <FormItem label="头像">
-      <div class="demo-upload-list" v-for="item in uploadList">
+      <div class="demo-upload-list" v-for="(item, index) in uploadList" v-bind:key="index">
         <template v-if="item.status === 'finished'">
           <img :src="item.url">
           <div class="demo-upload-list-cover">
@@ -20,6 +20,7 @@
       </div>
       <Upload v-show="!hadImage"
         ref="upload"
+        :headers="{'token':token}"
         :show-upload-list="false"
         :on-success="handleSuccess"
         :format="['jpg','jpeg','png']"
@@ -43,6 +44,9 @@
 </template>
 <script>
 import { modify } from '@/api/user'
+import {getToken} from '@/libs/util'
+import config from '@/config'
+import {mapActions} from 'vuex'
 export default {
   data () {
     const validatePass = (rule, value, callback) => {
@@ -74,17 +78,26 @@ export default {
         ]
       },
       uploadList: [],
-      hadImage: false
+      hadImage: false,
+      token: getToken()
     }
   },
   methods: {
+    ...mapActions([
+      'handleLogin',
+      'getUserInfo'
+    ]),
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           modify(this.formCustom).then((res) => {
             if (res.data.success) {
               this.$Message.success('提交成功')
-              this.$router.push('/')
+              this.getUserInfo().then(res => {
+                this.$router.push({
+                  name: this.$config.homeName
+                })
+              })
             } else {
               this.$Message.error(res.data.message)
             }
@@ -104,9 +117,10 @@ export default {
       this.formCustom.avator = ''
     },
     handleSuccess (res, file) {
-      file.url = res.url
+      const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
+      file.url = baseUrl + res.url
       file.name = res.currentFileName
-      this.formCustom.avator = res.url
+      this.formCustom.avator = baseUrl + res.url
     },
     handleFormatError (file) {
       this.$Notice.warning({
