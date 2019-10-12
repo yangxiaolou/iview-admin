@@ -96,7 +96,7 @@ export default [
     meta: {
       icon: 'logo-buffer',
       title: '用户管理',
-      access: ['1']
+      access: [1]
     },
     component: Main,
     children: [
@@ -113,7 +113,7 @@ export default [
           //   }
           // }
           title: '用户注册',
-          access: ['1']
+          access: [1]
         },
         component: () => import('@/view/components/registered/registered.vue')
       },
@@ -124,7 +124,7 @@ export default [
           icon: 'md-trending-up',
           title: '用户编辑',
           hideInMenu: true,
-          access: ['1']
+          access: [1]
         },
         component: () => import('@/view/components/registered/edit.vue')
       },
@@ -134,7 +134,7 @@ export default [
         meta: {
           icon: 'md-trending-up',
           title: '用户列表',
-          access: ['1']
+          access: [1]
         },
         component: () => import('@/view/components/user-list/user-list.vue')
       }
