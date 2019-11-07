@@ -1,7 +1,7 @@
 <template>
   <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-    <FormItem label="姓名" prop="name">
-      <Input style="width: 30%" v-model="formValidate.name" placeholder="输入您的姓名"></Input>
+    <FormItem label="姓名" prop="userName">
+      <Input style="width: 30%" v-model="formValidate.userName" placeholder="输入您的姓名"></Input>
     </FormItem>
     <FormItem label="手机号" prop="phone">
       <Input style="width: 30%" v-model="formValidate.phone" placeholder="输入您的手机号"></Input>
@@ -20,7 +20,7 @@
     </FormItem>
     <FormItem label="授权">
       <Select v-model="formValidate.authoList" multiple style="width:260px">
-        <Option v-for="item in authoList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        <Option v-for="item in authoList" :value="item.id" :key="item.value">{{ item.label }}</Option>
       </Select>
     </FormItem>
     <FormItem label="描述" prop="description">
@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       formValidate: {
-        name: '',
+        userName: '',
         phone: '',
         mail: '',
         gender: '',
@@ -50,7 +50,7 @@ export default {
         authoList: []
       },
       ruleValidate: {
-        name: [
+        userName: [
           {required: true, message: '姓名不能为空', trigger: 'blur'},
           {type: 'string', max: 10, message: '姓名不超过10个字', trigger: 'blur'}
         ],
@@ -98,6 +98,7 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
+          console.log(this.formValidate)
           registered(this.formValidate).then((res) => {
             if (res.data.success) {
               this.$Message.success('提交成功')

@@ -148,6 +148,73 @@ export default {
     },
     handleClick (item) {
       this.turnToPage(item)
+    },
+    say() {
+      if (this.websock == null) {
+        alert('连接异常：null')
+        return 'null'
+      }
+      if(this.userInput===""){
+        this.tips('请输入聊天内容')
+      } else {
+        this.tips('')
+      }
+      this.websocketsend(this.userInput)
+      this.userInput = ''
+    },
+    webSocket() {
+      // 建立socket连接
+      if ('WebSocket' in window) {//判断当前浏览器是否支持webSocket
+        this.websock = new WebSocket("ws://localhost:8081/websocket")//与后端服务建立连接
+      } else {
+        alert('你的浏览器暂不支持websocket :(')
+      }
+      console.log(this.websock)
+      this.websock.onopen = this.websocketonopen
+      this.websock.onerror = this.websocketonerror
+      this.websock.onmessage = this.websocketonmessage
+      this.websock.onclose = this.websocketclose
+    },
+    websocketonopen () {
+      console.log("WebSocket连接成功")
+      var data = '这是user，加入了连接'
+      this.websocketsend(data)
+    },
+    websocketonerror (e) {
+      this.$Notice.warning({
+        title: 'WebSocket连接发生错误'
+      })
+      console.log("WebSocket连接发生错误")
+    },
+    websocketonmessage (e) { // 数据接收
+      // 显示消息内容
+      console.log(e)
+      this.$Notice.warning({
+        title: e.data
+      })
+    },
+    websocketsend (data) { // 数据发送
+      // this.tips("数据发送中...");
+      this.websock.send(this.niming + ': ' + data)
+    },
+    websocketclose (e) {
+      this.websock.close()
+      this.$Notice.warning({
+        title: 'WebSocket连接关闭'
+      })
+      // this.tips("WebSocket连接关闭")
+      // console.log("connection closed (" + e + ")")// e.code
+    },
+    //将消息显示在网页上
+    setMessageInnerHTML (msg) {
+      // document.getElementById('message').innerHTML += msg + '<br/>'
+      this.$Notice.warning({
+        title: msg
+      })
+    },
+    //提示信息显示在网页上
+    tips (msg) {
+      document.getElementById('ts').innerHTML = msg
     }
   },
   watch: {
@@ -161,6 +228,12 @@ export default {
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
     }
+  },
+  created () {
+    this.webSocket() // 连接WebSocket
+  },
+  destroyed () {
+    this.websocketclose()
   },
   mounted () {
     /**
@@ -184,12 +257,12 @@ export default {
     this.getUnreadMessageCount()
     // 加载常量
     this.loadConstants()
-    if (this.newUser) {
-      this.$Notice.warning({
-        title: '请修改初始化密码',
-        desc: '点击右上角修改密码选项，修改密码. '
-      })
-    }
+    // if (this.newUser) {
+    //   this.$Notice.warning({
+    //     title: '请修改初始化密码',
+    //     desc: '点击右上角修改密码选项，修改密码. '
+    //   })
+    // }
   }
 }
 </script>

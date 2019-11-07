@@ -4,7 +4,7 @@ import qs from 'qs'
 export const registered = (userForm) => {
   const data = userForm
   return axios.request({
-    url: 'registered',
+    url: 'user/registered',
     data,
     method: 'post'
   })
@@ -44,7 +44,7 @@ export const removeUserById = (id) => {
 
 export const getUserList = () => {
   return axios.request({
-    url: 'get_user_list',
+    url: 'user/get_user_list',
     method: 'get'
   })
 }

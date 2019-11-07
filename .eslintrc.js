@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   'extends': [
     'plugin:vue/essential',
-    '@vue/standard'
+    // '@vue/standard' 关于一些空格的规则很烦，不然容易报错
   ],
   rules: {
     // allow async-await
