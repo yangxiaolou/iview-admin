@@ -167,54 +167,43 @@ export default {
       if ('WebSocket' in window) {//判断当前浏览器是否支持webSocket
         this.websock = new WebSocket("ws://localhost:8081/websocket")//与后端服务建立连接
       } else {
-        alert('你的浏览器暂不支持websocket :(')
+        this.$Notice.warning({
+          title: '你的浏览器暂不支持websocket'
+        })
       }
-      console.log(this.websock)
       this.websock.onopen = this.websocketonopen
       this.websock.onerror = this.websocketonerror
       this.websock.onmessage = this.websocketonmessage
       this.websock.onclose = this.websocketclose
     },
     websocketonopen () {
-      console.log("WebSocket连接成功")
-      var data = '这是user，加入了连接'
-      this.websocketsend(data)
+      // this.$Notice.info({
+      //   title: 'WebSocket连接成功'
+      // })
+      console.log('WebSocket连接成功')
+      // this.websocketsend(data)
     },
     websocketonerror (e) {
-      this.$Notice.warning({
+      this.$Notice.error({
         title: 'WebSocket连接发生错误'
       })
-      console.log("WebSocket连接发生错误")
+      console.error("WebSocket连接发生错误")
     },
     websocketonmessage (e) { // 数据接收
       // 显示消息内容
-      console.log(e)
-      this.$Notice.warning({
+      this.$Notice.info({
         title: e.data
       })
     },
     websocketsend (data) { // 数据发送
-      // this.tips("数据发送中...");
-      this.websock.send(this.niming + ': ' + data)
+      this.websock.send(data)
     },
     websocketclose (e) {
       this.websock.close()
-      this.$Notice.warning({
-        title: 'WebSocket连接关闭'
-      })
-      // this.tips("WebSocket连接关闭")
-      // console.log("connection closed (" + e + ")")// e.code
-    },
-    //将消息显示在网页上
-    setMessageInnerHTML (msg) {
-      // document.getElementById('message').innerHTML += msg + '<br/>'
-      this.$Notice.warning({
-        title: msg
-      })
-    },
-    //提示信息显示在网页上
-    tips (msg) {
-      document.getElementById('ts').innerHTML = msg
+      // this.$Notice.info({
+      //   title: 'WebSocket连接关闭'
+      // })
+      console.info('WebSocket连接关闭')
     }
   },
   watch: {
@@ -257,12 +246,6 @@ export default {
     this.getUnreadMessageCount()
     // 加载常量
     this.loadConstants()
-    // if (this.newUser) {
-    //   this.$Notice.warning({
-    //     title: '请修改初始化密码',
-    //     desc: '点击右上角修改密码选项，修改密码. '
-    //   })
-    // }
   }
 }
 </script>
