@@ -2,8 +2,10 @@ import axios from 'axios'
 import store from '@/store'
 import {setToken} from '@/libs/util'
 // import { Spin } from 'iview'
+import {Message} from 'iview'
+
 const addErrorLog = errorInfo => {
-  const { statusText, status, request: { responseURL } } = errorInfo
+  const {statusText, status, request: {responseURL}} = errorInfo
   let info = {
     type: 'ajax',
     code: status,
@@ -14,11 +16,12 @@ const addErrorLog = errorInfo => {
 }
 
 class HttpRequest {
-  constructor (baseUrl = baseURL) {
+  constructor(baseUrl = baseURL) {
     this.baseUrl = baseUrl
     this.queue = {}
   }
-  getInsideConfig () {
+
+  getInsideConfig() {
     const config = {
       baseURL: this.baseUrl,
       headers: {
@@ -28,13 +31,15 @@ class HttpRequest {
     }
     return config
   }
-  destroy (url) {
+
+  destroy(url) {
     delete this.queue[url]
     if (!Object.keys(this.queue).length) {
       // Spin.hide()
     }
   }
-  interceptors (instance, url) {
+
+  interceptors(instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
       // 添加全局的loading...
@@ -49,23 +54,27 @@ class HttpRequest {
     // 响应拦截
     instance.interceptors.response.use(res => {
       this.destroy(url)
-      const { data, status } = res
-      if (status == 200 && (data.code == 501 || data.code == 502 || data.code == 503)) {
-        this.$Message.error(data.message)
+      const {data, status} = res
+      const errorCode = [501, 502, 503, 504]
+      if (!data.success && errorCode.includes(data.code)) {
+        Message.error(data.message)
         setToken('')
+        return Promise.reject(error)
       }
-      return { data, status }
+      return {data, status}
     }, error => {
       this.destroy(url)
       addErrorLog(error.response)
       return Promise.reject(error)
     })
   }
-  request (options) {
+
+  request(options) {
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)
     return instance(options)
   }
 }
+
 export default HttpRequest
