@@ -10,7 +10,7 @@ export default {
       columns7: [
         {
           title: '姓名',
-          key: 'userName'
+          key: 'name'
         },
         {
           title: '手机',

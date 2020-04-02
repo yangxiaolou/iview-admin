@@ -28,15 +28,15 @@ export const handleDispatch = () => {
 
 export const getUserById = (id) => {
   return axios.request({
-    url: 'get_user_by_id',
-    data: qs.stringify({id}),
-    method: 'post'
+    url: 'user/get_user_by_id',
+    params: {id},
+    method: 'get'
   })
 }
 
 export const removeUserById = (id) => {
   return axios.request({
-    url: 'remove_user_by_id',
+    url: 'user/remove_user_by_id',
     params: {id},
     method: 'get'
   })
@@ -51,7 +51,7 @@ export const getUserList = () => {
 
 export const login = ({ userName, password }) => {
   const data = {
-    userName,
+    "name":userName,
     password
   }
   return axios.request({

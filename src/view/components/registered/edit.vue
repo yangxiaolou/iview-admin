@@ -20,7 +20,7 @@
     </FormItem>
     <FormItem label="授权">
       <Select v-model="formValidate.authoList" multiple style="width:260px">
-        <Option v-for="item in authoList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        <Option v-for="item in authoList" :value="item.id" :key="item.value">{{ item.label }}</Option>
       </Select>
     </FormItem>
     <FormItem label="描述" prop="description">
