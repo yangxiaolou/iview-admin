@@ -1,7 +1,7 @@
 <template>
   <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-    <FormItem label="姓名" prop="userName">
-      <Input style="width: 30%" v-model="formValidate.userName" placeholder="输入您的姓名"></Input>
+    <FormItem label="姓名" prop="name">
+      <Input style="width: 30%" v-model="formValidate.name" placeholder="输入您的姓名"></Input>
     </FormItem>
     <FormItem label="手机号" prop="phone">
       <Input style="width: 30%" v-model="formValidate.phone" placeholder="输入您的手机号"></Input>
@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       formValidate: {
-        userName: '',
+        name: '',
         phone: '',
         mail: '',
         gender: '',
@@ -50,7 +50,7 @@ export default {
         authoList: []
       },
       ruleValidate: {
-        userName: [
+        name: [
           {required: true, message: '姓名不能为空', trigger: 'blur'},
           {type: 'string', max: 10, message: '姓名不超过10个字', trigger: 'blur'}
         ],

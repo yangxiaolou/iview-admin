@@ -115,8 +115,8 @@ export const hasRead = msg_id => {
 export const removeReaded = msg_id => {
   return axios.request({
     url: 'message/remove_readed',
-    method: 'post',
-    data: {
+    method: 'get',
+    params: {
       msg_id
     }
   })
@@ -125,8 +125,8 @@ export const removeReaded = msg_id => {
 export const restoreTrash = msg_id => {
   return axios.request({
     url: 'message/restore',
-    method: 'post',
-    data: {
+    method: 'get',
+    params: {
       msg_id
     }
   })

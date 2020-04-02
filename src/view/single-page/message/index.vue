@@ -105,7 +105,12 @@ export default {
       this[name] = false
     },
     handleSelect (name) {
+      this.clearMessage()
       this.currentMessageType = name
+    },
+    clearMessage () {
+      this.showingMsgItem = {}
+      this.messageContent = ''
     },
     handleView (msg_id) {
       this.contentLoading = true
@@ -113,7 +118,9 @@ export default {
         this.messageContent = content
         const item = this.messageList.find(item => item.msg_id === msg_id)
         if (item) this.showingMsgItem = item
-        if (this.currentMessageType === 'unread') this.hasRead({ msg_id })
+        if (this.currentMessageType === 'unread'){
+          this.hasRead({ msg_id })
+        }
         this.stopLoading('contentLoading')
       }).catch(() => {
         this.stopLoading('contentLoading')
