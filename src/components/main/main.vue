@@ -153,23 +153,11 @@
       handleClick(item) {
         this.turnToPage(item)
       },
-      say() {
-        if (this.websock == null) {
-          alert('连接异常：null')
-          return 'null'
-        }
-        if (this.userInput === "") {
-          this.tips('请输入聊天内容')
-        } else {
-          this.tips('')
-        }
-        this.websocketsend(this.userInput)
-        this.userInput = ''
-      },
       webSocket() {
         // 建立socket连接
         if ('WebSocket' in window) {//判断当前浏览器是否支持webSocket
-          this.websock = new WebSocket("ws://localhost:8081/websocket")//与后端服务建立连接
+          let userId = this.$store.state.user.userId
+          this.websock = new WebSocket("ws://localhost:8081/websocket/" + userId)//与后端服务建立连接
         } else {
           this.$Notice.warning({
             title: '你的浏览器暂不支持websocket'
@@ -181,17 +169,10 @@
         this.websock.onclose = this.websocketclose
       },
       websocketonopen() {
-        // this.$Notice.info({
-        //   title: 'WebSocket连接成功'
-        // })
         console.log('WebSocket连接成功')
-        // this.websocketsend(data)
       },
       websocketonerror(e) {
-        this.$Notice.error({
-          title: 'WebSocket连接发生错误'
-        })
-        console.error("WebSocket连接发生错误")
+        webSocket()
       },
       websocketonmessage(e) { // 数据接收
         // 显示消息内容
@@ -199,15 +180,9 @@
           title: e.data
         })
       },
-      websocketsend(data) { // 数据发送
-        this.websock.send(data)
-      },
       websocketclose(e) {
         this.websock.close()
-        // this.$Notice.info({
-        //   title: 'WebSocket连接关闭'
-        // })
-        console.info('WebSocket连接关闭')
+        console.log('WebSocket连接关闭')
       }
     },
     watch: {
