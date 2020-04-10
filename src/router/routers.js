@@ -141,11 +141,11 @@ export default [
     ]
   },
   {
-    path: '/update',
-    name: 'update',
+    path: '/schedule',
+    name: 'schedule',
     meta: {
       icon: 'md-cloud-upload',
-      title: '数据上传'
+      title: '定时任务'
     },
     component: Main,
     children: [
@@ -154,6 +154,7 @@ export default [
         name: 'update_table_page',
         meta: {
           icon: 'ios-document',
+          hideInMenu: true,
           title: '上传Csv'
         },
         component: () => import('@/view/update/update-table.vue')
