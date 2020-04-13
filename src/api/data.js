@@ -15,6 +15,29 @@ export const getDragList = () => {
   })
 }
 
+export const getJobList = () => {
+  return axios.request({
+    url: 'schedule/list',
+    method: 'get'
+  })
+}
+
+export const saveJob = (jobForm) => {
+  return axios.request({
+    url: 'schedule/add',
+    data: jobForm,
+    method: 'post'
+  })
+}
+
+export const getJobById = (id) => {
+  return axios.request({
+    url: 'schedule/getJobById',
+    params: {id},
+    method: 'get'
+  })
+}
+
 export const errorReq = () => {
   return axios.request({
     url: 'error_url',

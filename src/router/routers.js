@@ -149,14 +149,14 @@ export default [
     component: Main,
     children: [
       {
-        path: 'update_table_page',
-        name: 'update_table_page',
+        path: 'save_job_page',
+        name: 'save_job_page',
         meta: {
           icon: 'ios-document',
           hideInMenu: true,
-          title: '上传Csv'
+          title: '保存任务计划'
         },
-        component: () => import('@/view/schedule/update-paste.vue')
+        component: () => import('@/view/schedule/save-job.vue')
       },
       {
         path: 'job_list_page',

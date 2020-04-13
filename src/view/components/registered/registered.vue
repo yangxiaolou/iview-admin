@@ -98,7 +98,6 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.formValidate)
           registered(this.formValidate).then((res) => {
             if (res.data.success) {
               this.$Message.success('提交成功')

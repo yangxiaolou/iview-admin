@@ -1,11 +1,42 @@
 <template>
-  <Table border :columns="columns7" :data="data6"></Table>
+  <div>
+    <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+      <FormItem prop="user">
+        <Input type="text" v-model="formInline.user" placeholder="Username">
+          <Icon type="ios-person-outline" slot="prepend"></Icon>
+        </Input>
+      </FormItem>
+      <FormItem prop="password">
+        <Input type="password" v-model="formInline.password" placeholder="Password">
+          <Icon type="ios-lock-outline" slot="prepend"></Icon>
+        </Input>
+      </FormItem>
+      <FormItem>
+        <Button type="primary" @click="handleSubmit('formInline')">搜索</Button>
+        <Button style="margin-left: 8px" type="primary" @click="save()">新增</Button>
+      </FormItem>
+    </Form>
+    <Table border :columns="columns7" :data="data6"></Table>
+  </div>
 </template>
 <script>
-  import { getUserList, removeUserById } from '@/api/user'
+  import { getJobList } from '@/api/data'
   export default {
     data () {
       return {
+        formInline: {
+          user: '',
+          password: ''
+        },
+        ruleInline: {
+          user: [
+            { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: 'Please fill in the password.', trigger: 'blur' },
+            { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+          ]
+        },
         columns7: [
           {
             title: '执行类名称',
@@ -75,14 +106,14 @@
       }
     },
     created () {
-      getUserList().then(res => {
+      getJobList().then(res => {
         this.data6 = res.data.data
       })
     },
     methods: {
       edit (index) {
         const route = {
-          name: 'edit',
+          name: 'save_job_page',
           query: {
             id: this.data6[index].id
           }
@@ -98,6 +129,21 @@
             })
           }
         })
+      },
+      handleSubmit(name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.$Message.success('Success!');
+          } else {
+            this.$Message.error('Fail!');
+          }
+        })
+      },
+      save() {
+        const route = {
+          name: 'save_job_page'
+        }
+        this.$router.push(route)
       }
     }
   }
