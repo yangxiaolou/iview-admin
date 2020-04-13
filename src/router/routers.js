@@ -94,7 +94,7 @@ export default [
     path: '/manage',
     name: 'manage',
     meta: {
-      icon: 'logo-buffer',
+      icon: 'ios-people',
       title: '用户管理',
       access: [1]
     },
@@ -144,8 +144,7 @@ export default [
     path: '/schedule',
     name: 'schedule',
     meta: {
-      icon: 'md-cloud-upload',
-      title: '定时任务'
+      hideInBread: true
     },
     component: Main,
     children: [
@@ -157,16 +156,16 @@ export default [
           hideInMenu: true,
           title: '上传Csv'
         },
-        component: () => import('@/view/update/update-table.vue')
+        component: () => import('@/view/schedule/update-paste.vue')
       },
       {
-        path: 'update_paste_page',
-        name: 'update_paste_page',
+        path: 'job_list_page',
+        name: 'job_list_page',
         meta: {
-          icon: 'md-clipboard',
-          title: '粘贴表格数据'
+          icon: 'md-alarm',
+          title: '定时任务'
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/schedule/job-list.vue')
       }
     ]
   },
