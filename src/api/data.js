@@ -38,6 +38,14 @@ export const getJobById = (id) => {
   })
 }
 
+export const removeJobById = (id) => {
+  return axios.request({
+    url: 'schedule/remove/'+id,
+    method: 'post'
+  })
+}
+
+
 export const errorReq = () => {
   return axios.request({
     url: 'error_url',

@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-  import { getJobList } from '@/api/data'
+  import { getJobList, removeJobById } from '@/api/data'
   export default {
     data () {
       return {
@@ -121,10 +121,10 @@
         this.$router.push(route)
       },
       remove (index) {
-        removeUserById(this.data6[index].id).then((res) => {
+        removeJobById(this.data6[index].id).then((res) => {
           if (res.data.success) {
             this.$Message.success('删除成功')
-            getUserList().then(res => {
+            getJobList().then(res => {
               this.data6 = res.data.data
             })
           }
