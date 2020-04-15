@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-  import { getJobList, removeJobById } from '@/api/data'
+  import { getJobList, removeJobById, pause, resume } from '@/api/data'
   export default {
     data () {
       return {
@@ -56,7 +56,16 @@
           },
           {
             title: '状态',
-            key: 'status'
+            key: 'status',
+            render: (h, params) => {
+              let name = ['运行','停止']
+              let styleColor = ['#04881A','#ff6600']
+              return h('span',{
+                style: {
+                  color: styleColor[params.row.status]
+                }
+              }, name[params.row.status])
+            }
           },
           {
             title: '备注',
@@ -67,12 +76,27 @@
             key: 'updateTime'
           },
           {
-            title: 'Action',
+            title: '操作',
             key: 'action',
-            width: 150,
+            width: 200,
             align: 'center',
             render: (h, params) => {
+              let name = ['停止','启动']
               return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.pauseOrResume(params.index)
+                    }
+                  }
+                }, name[params.row.status]),
                 h('Button', {
                   props: {
                     type: 'primary',
@@ -86,7 +110,7 @@
                       this.edit(params.index)
                     }
                   }
-                }, 'Edit'),
+                }, '编辑'),
                 h('Button', {
                   props: {
                     type: 'error',
@@ -97,7 +121,7 @@
                       this.remove(params.index)
                     }
                   }
-                }, 'Delete')
+                }, '删除')
               ])
             }
           }
@@ -111,6 +135,27 @@
       })
     },
     methods: {
+      pauseOrResume (index) {
+        if(this.data6[index].status){
+          resume(this.data6[index].id).then((res) => {
+            if (res.data.success) {
+              this.$Message.success('启动成功')
+              getJobList().then(res => {
+                this.data6 = res.data.data
+              })
+            }
+          })
+        } else {
+          pause(this.data6[index].id).then((res) => {
+            if (res.data.success) {
+              this.$Message.success('停止成功')
+              getJobList().then(res => {
+                this.data6 = res.data.data
+              })
+            }
+          })
+        }
+      },
       edit (index) {
         const route = {
           name: 'save_job_page',

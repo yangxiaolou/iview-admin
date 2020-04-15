@@ -17,14 +17,15 @@
              placeholder="输入备注"></Input>
     </FormItem>
     <FormItem>
-      <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+      <Button type="primary" v-if="$route.query.id" @click="update('formValidate')">更新</Button>
+      <Button v-else type="primary" @click="handleSubmit('formValidate')">提交</Button>
       <Button v-if="$route.query.id" @click="$router.go(-1)" style="margin-left: 8px">返回</Button>
       <Button v-else @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
     </FormItem>
   </Form>
 </template>
 <script>
-  import {saveJob, getJobById} from '@/api/data'
+  import {saveJob, getJobById, updateJob} from '@/api/data'
   import {routeEqual} from '@/libs/util'
   import {mapMutations, mapState} from 'vuex'
   export default {
@@ -59,6 +60,18 @@
       ...mapMutations([
         'setTagNavList'
       ]),
+      update (name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            updateJob(this.formValidate).then((res) => {
+              this.$Message.success('更新成功')
+              let tagNavList = this.$store.state.app.tagNavList.filter(item => !routeEqual(this.$route, item))
+              this.$router.push('job_list_page')
+              this.setTagNavList(tagNavList)
+            })
+          }
+        })
+      },
       getJob (id) {
         getJobById(id).then(res => {
           if (res.data.success) {

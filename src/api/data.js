@@ -30,6 +30,14 @@ export const saveJob = (jobForm) => {
   })
 }
 
+export const updateJob = (jobForm) => {
+  return axios.request({
+    url: 'schedule/update',
+    data: jobForm,
+    method: 'post'
+  })
+}
+
 export const getJobById = (id) => {
   return axios.request({
     url: 'schedule/getJobById',
@@ -41,6 +49,20 @@ export const getJobById = (id) => {
 export const removeJobById = (id) => {
   return axios.request({
     url: 'schedule/remove/'+id,
+    method: 'post'
+  })
+}
+
+export const pause = (id) => {
+  return axios.request({
+    url: 'schedule/pause/'+id,
+    method: 'post'
+  })
+}
+
+export const resume = (id) => {
+  return axios.request({
+    url: 'schedule/resume/'+id,
     method: 'post'
   })
 }

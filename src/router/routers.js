@@ -163,7 +163,7 @@ export default [
         name: 'job_list_page',
         meta: {
           icon: 'md-alarm',
-          title: '定时任务'
+          title: '定时任务管理'
         },
         component: () => import('@/view/schedule/job-list.vue')
       }

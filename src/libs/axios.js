@@ -56,10 +56,20 @@ class HttpRequest {
       this.destroy(url)
       const {data, status} = res
       const errorCode = [501, 502, 503, 504]
+      if (!data.success &&  500 == data.code) {
+        Message.error({
+          content:data.message,
+          duration:5
+        })
+        return Promise.reject(data)
+      }
       if (!data.success && errorCode.includes(data.code)) {
-        Message.error(data.message)
+        Message.error({
+          content:data.message,
+          duration:5
+        })
         setToken('')
-        return Promise.reject(error)
+        return Promise.reject(data)
       }
       return {data, status}
     }, error => {
