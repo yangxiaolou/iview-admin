@@ -117,10 +117,9 @@ export default {
       this.formCustom.avator = ''
     },
     handleSuccess (res, file) {
-      const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
-      file.url = baseUrl + res.url
+      file.url =  res.url
       file.name = res.currentFileName
-      this.formCustom.avator = baseUrl + res.url
+      this.formCustom.avator = res.url
     },
     handleFormatError (file) {
       this.$Notice.warning({
