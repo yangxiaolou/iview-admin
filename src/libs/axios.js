@@ -55,7 +55,6 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.destroy(url)
       const {data, status} = res
-      const errorCode = [501, 502, 503, 504]
       if (!data.success &&  500 == data.code) {
         Message.error({
           content:data.message,
@@ -63,7 +62,7 @@ class HttpRequest {
         })
         return Promise.reject(data)
       }
-      if (!data.success && errorCode.includes(data.code)) {
+      if (!data.success && 501 == data.code) {
         Message.error({
           content:data.message,
           duration:5
