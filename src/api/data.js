@@ -102,3 +102,26 @@ export const loadConstants = typeList => {
     method: 'get'
   })
 }
+
+export const getMessageList = (form) => {
+  return axios.request({
+    url: 'message/list',
+    data: form,
+    method: 'post'
+  })
+}
+
+export const getMessageById = (id) => {
+  return axios.request({
+    url: 'message/info/'+id,
+    method: 'get'
+  })
+}
+
+export const saveMessage = (form) => {
+  return axios.request({
+    url: 'message/save',
+    data: form,
+    method: 'post'
+  })
+}
