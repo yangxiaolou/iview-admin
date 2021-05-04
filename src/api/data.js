@@ -40,8 +40,7 @@ export const updateJob = (jobForm) => {
 
 export const getJobById = (id) => {
   return axios.request({
-    url: 'schedule/getJobById',
-    params: {id},
+    url: 'schedule/'+id,
     method: 'get'
   })
 }
